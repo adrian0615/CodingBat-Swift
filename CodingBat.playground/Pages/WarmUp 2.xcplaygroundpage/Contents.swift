@@ -78,12 +78,29 @@ countXX("xxxx") //→ 3
 
 //Given a string, return true if the first instance of "x" in the string is immediately followed by another "x".
 
+func doubleX(_ input: String) -> Bool {
+    let chars = input.characters
+    var answer: Bool = false
+    
+    for i in chars {
+        let foundIndex = chars.index(of: i)
+        let nextIndex = chars.index(after: foundIndex!)
+        
+        if i == "x" && chars[nextIndex] == "x" {
+            answer = true
+        }
+    }
+    return answer
+}
 
 
 
-/*doubleX("axxbb") → true
-doubleX("axaxax") → false
-doubleX("xxxxx") → true*/
+
+
+
+doubleX("axxbb") //→ true
+doubleX("axaxax") //→ false
+doubleX("xxxxx") //→ true
 
 
 
@@ -92,11 +109,24 @@ doubleX("xxxxx") → true*/
 
 //Given a string, return a new string made of every other char starting with the first, so "Hello" yields "Hlo".
 
+func stringBits(_ input: String) -> String {
+    var newString = ""
+    let chars = input.characters
+    
+    for (index, char) in chars.enumerated() {
+        if index % 2 == 0 {
+            newString.append(char)
+        }
+    }
+    
+    return newString
+}
 
 
-/*stringBits("Hello") → "Hlo"
- stringBits("Hi") → "H"
- stringBits("Heeololeo") → "Hello"*/
+
+stringBits("Hello") //→ "Hlo"
+stringBits("Hi") //→ "H"
+stringBits("Heeololeo") //→ "Hello"
 
 
 
@@ -105,13 +135,28 @@ doubleX("xxxxx") → true*/
 
 //Given a non-empty string like "Code" return a string like "CCoCodCode".
 
+func stringSplosion(_ input: String) -> String {
+    
+    guard input.characters.count > 1 else {
+        return input
+    }
+    
+    
+    var chars = input.characters
+    var newString = ""
+    
+    while chars.count != 0 {
+        newString.insert(contentsOf: chars, at: newString.startIndex)
+        chars.removeLast()
+    }
+    return newString
+}
 
 
 
-
-/*stringSplosion("Code") → "CCoCodCode"
- stringSplosion("abc") → "aababc"
- stringSplosion("ab") → "aab"*/
+stringSplosion("Code") //→ "CCoCodCode"
+stringSplosion("abc") //→ "aababc"
+stringSplosion("ab") //→ "aab"
 
 
 
@@ -120,12 +165,31 @@ doubleX("xxxxx") → true*/
 
 //Given a string, return the count of the number of times that a substring length 2 appears in the string and also as the last 2 chars of the string, so "hixxxhi" yields 1 (we won't count the end substring).
 
+func last2(_ input: String) -> Int {
+    guard input.characters.count > 3 else {
+        return 0
+    }
+    
+    var count = 0
+    var chars = input.characters
+    let lastTwo = chars.suffix(2)
+    let lastTwoString = String(lastTwo)
+    chars.removeLast(2)
+    var newWord = String(chars)
+    
+    while newWord.contains(lastTwoString) {
+        count += 1
+        newWord.remove(at: (newWord.range(of: lastTwoString)!.lowerBound))
+        
+    }
+    
+    return count
+}
 
 
-
-/*last2("hixxhi") → 1
- last2("xaxxaxaxx") → 1
- last2("axxxaaxx") → 2*/
+last2("hixxhi") //→ 1
+last2("xaxxaxaxx") //→ 1
+last2("axxxaaxx") //→ 2
 
 
 
@@ -135,12 +199,21 @@ doubleX("xxxxx") → true*/
 
 //Given an array of ints, return the number of 9's in the array.
 
+func arrayCount9(_ input: [Int]) -> Int {
+    var count = 0
+    
+    for num in input {
+        if num == 9 {
+            count += 1
+        }
+    }
+    return count
+}
 
 
-
-/*arrayCount9([1, 2, 9]) → 1
- arrayCount9([1, 9, 9]) → 2
- arrayCount9([1, 9, 9, 3, 9]) → 3*/
+arrayCount9([1, 2, 9]) //→ 1
+arrayCount9([1, 9, 9]) //→ 2
+arrayCount9([1, 9, 9, 3, 9]) //→ 3
 
 
 
@@ -149,11 +222,21 @@ doubleX("xxxxx") → true*/
 
 //Given an array of ints, return true if one of the first 4 elements in the array is a 9. The array length may be less than 4.
 
+func arrayFront9(_ input: [Int]) -> Bool {
+    guard input.count > 3 else {
+        return false
+    }
+    
+    if input.prefix(4).contains(9) {
+        return true
+    }
+    return false
+}
 
 
-/*arrayFront9([1, 2, 9, 3, 4]) → true
- arrayFront9([1, 2, 3, 4, 9]) → false
- arrayFront9([1, 2, 3, 4, 5]) → false*/
+arrayFront9([1, 2, 9, 3, 4]) //→ true
+arrayFront9([1, 2, 3, 4, 9]) //→ false
+arrayFront9([1, 2, 3, 4, 5]) //→ false
 
 
 
@@ -162,13 +245,24 @@ doubleX("xxxxx") → true*/
 
 //Given an array of ints, return true if the sequence of numbers 1, 2, 3 appears in the array somewhere.
 
+func array123(_ input: [Int]) -> Bool {
+    
+    for (index, number) in input.enumerated() {
+        let thirdIndex = index + 2
+        let secondIndex = index + 1
+        
+        if secondIndex < input.endIndex && number == 1 && input[secondIndex] == 2 && input[thirdIndex] == 3 {
+            return true
+        }
+    }
+    return false
+}
 
 
 
-
-/*array123([1, 1, 2, 3, 1]) → true
- array123([1, 1, 2, 4, 1]) → false
- array123([1, 1, 2, 1, 2, 3]) → true*/
+array123([1, 1, 2, 3, 1]) //→ true
+array123([1, 1, 2, 4, 1]) //→ false
+array123([1, 1, 2, 1, 2, 3]) //→ true
 
 
 
@@ -177,12 +271,25 @@ doubleX("xxxxx") → true*/
 
 //Given 2 strings, a and b, return the number of the positions where they contain the same length 2 substring. So "xxcaazz" and "xxbaaz" yields 3, since the "xx", "aa", and "az" substrings appear in the same place in both strings.
 
+func stringMatch(_ input: String, _ input2: String) -> Int {
+    var firstInput = input
+    var secondInput = input2
+    var count = 0
+    
+    while firstInput.characters.count > 1 && secondInput.characters.count > 1 {
+        if String(firstInput.characters.prefix(2)) == String(secondInput.characters.prefix(2)) {
+            count += 1
+        }
+        firstInput.characters.removeFirst()
+        secondInput.characters.removeFirst()
+    }
+    return count
+}
 
 
-
-/*stringMatch("xxcaazz", "xxbaaz") → 3
- stringMatch("abc", "abc") → 2
- stringMatch("abc", "axc") → 0*/
+stringMatch("xxcaazz", "xxbaaz") //→ 3
+stringMatch("abc", "abc") //→ 2
+stringMatch("abc", "axc") //→ 0
 
 
 
@@ -192,12 +299,27 @@ doubleX("xxxxx") → true*/
 
 //Given a string, return a version where all the "x" have been removed. Except an "x" at the very start or end should not be removed.
 
+func stringX(_ input: String) -> String {
+    var chars = input
+    let indexOfStart = chars.index(after: chars.startIndex)
+    let indexOfEnd = chars.index(before: chars.endIndex)
+    let middleRange = indexOfStart ..< indexOfEnd
+    
+    var subString = chars.substring(with: middleRange)
+    
+    while subString.characters.contains("x") {
+        subString.remove(at: subString.characters.index(of: "x")!)
+    }
+    
+    chars.replaceSubrange(middleRange, with: subString)
+    
+    return String(chars)
+}
 
 
-
-/*stringX("xxHxix") → "xHix"
- stringX("abxxxcd") → "abcd"
- stringX("xabxxxcdx") → "xabcdx"*/
+stringX("xxHxix") //→ "xHix"
+stringX("abxxxcd") //→ "abcd"
+stringX("xabxxxcdx") //→ "xabcdx"
 
 
 
@@ -207,12 +329,24 @@ doubleX("xxxxx") → true*/
 
 //Given a string, return a string made of the chars at indexes 0,1, 4,5, 8,9 ... so "kittens" yields "kien".
 
+func altPairs(_ input: String) -> String {
+    var newString = input
+    var count = 2
+    
+    while count < (newString.characters.count - 1) {
+        newString.remove(at: newString.index(newString.startIndex, offsetBy: count))
+        newString.remove(at: newString.index(newString.startIndex, offsetBy: count))
+        count += 2
+    }
+    
+    
+    return newString
+}
 
 
-
-/*altPairs("kitten") → "kien"
- altPairs("Chocolate") → "Chole"
- altPairs("CodingHorror") → "Congrr"*/
+altPairs("kitten") //→ "kien"
+altPairs("Chocolate") //→ "Chole"
+altPairs("CodingHorror") //→ "Congrr"
 
 
 
@@ -222,12 +356,21 @@ doubleX("xxxxx") → true*/
 
 //Suppose the string "yak" is unlucky. Given a string, return a version where all the "yak" are removed, but the "a" can be any char. The "yak" strings will not overlap.
 
+func stringYak(_ input: String) -> String {
+    var newString = input
+    
+    while newString.contains("yak") {
+        newString.removeSubrange(newString.range(of: "yak")!)
+        
+    }
+    
+    return newString
+}
 
 
-
-/*stringYak("yakpak") → "pak"
- stringYak("pakyak") → "pak"
- stringYak("yak123ya") → "123ya"*/
+stringYak("yakpak") //→ "pak"
+stringYak("pakyak") //→ "pak"
+stringYak("yak123ya") //→ "123ya"
 
 
 
@@ -236,11 +379,22 @@ doubleX("xxxxx") → true*/
 
 //Given an array of ints, return the number of times that two 6's are next to each other in the array. Also count instances where the second "6" is actually a 7.
 
+func array667(_ input: [Int]) -> Int {
+    var count = 0
+    
+    for (index, number) in input.enumerated() {
+        let nextIndex = index + 1
+        
+        if nextIndex < input.endIndex && number == 6 && (input[nextIndex] == 6 || input[nextIndex] == 7) {
+            count += 1
+        }
+    }
+    return count
+}
 
-
-/*array667([6, 6, 2]) → 1
- array667([6, 6, 2, 6]) → 1
- array667([6, 7, 2, 6]) → 1*/
+array667([6, 6, 2]) //→ 1
+array667([6, 6, 2, 6]) //→ 1
+array667([6, 7, 2, 6]) //→ 1
 
 
 
@@ -249,12 +403,23 @@ doubleX("xxxxx") → true*/
 
 //Given an array of ints, we'll say that a triple is a value appearing 3 times in a row in the array. Return true if the array does not contain any triples.
 
+func noTriples(_ input: [Int]) -> Bool {
+    
+    for (index, number) in input.enumerated() {
+        let thirdIndex = index + 2
+        let secondIndex = index + 1
+        
+        if secondIndex < input.endIndex && number == input[secondIndex] && number == input[thirdIndex] {
+            return false
+        }
+    }
+    return true
+}
 
 
-
-/*noTriples([1, 1, 2, 2, 1]) → true
- noTriples([1, 1, 2, 2, 2, 1]) → false
- noTriples([1, 1, 1, 2, 2, 2, 1]) → false*/
+noTriples([1, 1, 2, 2, 1]) //→ true
+noTriples([1, 1, 2, 2, 2, 1]) //→ false
+noTriples([1, 1, 1, 2, 2, 2, 1]) //→ false
 
 
 
@@ -263,11 +428,24 @@ doubleX("xxxxx") → true*/
 
 //Given an array of ints, return true if it contains a 2, 7, 1 pattern -- a value, followed by the value plus 5, followed by the value minus 1. Additionally the 271 counts even if the "1" differs by 2 or less from the correct value.
 
+func has271(_ input: [Int]) -> Bool {
+    
+    for (index, number) in input.enumerated() {
+        let thirdIndex = index + 2
+        let secondIndex = index + 1
+        
+        if secondIndex < input.endIndex && input[secondIndex] == number + 5 && (input[thirdIndex] == number - 1 || input[thirdIndex] == number - 2 || input[thirdIndex] == number - 3 || input[thirdIndex] == number + 1 || input[thirdIndex] == number + 2) {
+            return true
+        }
+    }
+    
+    return false
+}
 
 
-/*has271([1, 2, 7, 1]) → true
- has271([1, 2, 8, 1]) → false
- has271([2, 7, 1]) → true*/
+has271([1, 2, 7, 1]) //→ true
+has271([1, 2, 8, 1]) //→ false
+has271([2, 7, 1]) //→ true
 
 
 
@@ -288,22 +466,4 @@ evenlySpaced(4, 6, 2) //→ true
 evenlySpaced(4, 6, 3) //→ false
 
 
-func evenlySpacedArray(_ array: [Int]) -> Bool {
-    
-    
-    let sortedArray = array.sorted()
-    
-    let difference = sortedArray[1] - sortedArray[0]
-    
-    for num in sortedArray.indices.dropFirst() {
-        if difference == sortedArray[num] - sortedArray[sortedArray.index(before: num)] {
-            return false
-        }
-    }
-    return true
-}
-
-
-evenlySpacedArray([5, 2, 3, 1]) // false
-evenlySpacedArray([2, 3, 1]) // true
 
