@@ -3,5 +3,6 @@
     <pages>
         <page name='WarmUp'/>
         <page name='WarmUp 2'/>
+        <page name='String 1'/>
     </pages>
 </playground>
