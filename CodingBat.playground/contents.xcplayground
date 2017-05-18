@@ -5,5 +5,6 @@
         <page name='WarmUp 2'/>
         <page name='String 1'/>
         <page name='Array 1'/>
+        <page name='Logic 1'/>
     </pages>
 </playground>
